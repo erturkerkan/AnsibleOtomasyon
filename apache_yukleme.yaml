@@ -1,0 +1,18 @@
+---
+  - hosts: all
+    become: true
+    tasks:
+    
+    - name: Bu gorev,apt paket indeksini günceller.
+      apt:
+        update_cache: yes
+
+    - name: Bu gorev,apache2 yuklemesini gerceklestirir.
+      apt:
+        name: apache2
+        state: latest
+    
+    - name: Bu gorev, apache için php kutuphanesini yuklemesini gerceklestirir.
+      apt:
+        name: libapache2-mod-php
+        state: latest

@@ -1,0 +1,8 @@
+---
+  - hosts: all
+    become: true
+    tasks:
+    - name: Bu gorev,apache2 yuklemesini gerceklestirir.
+      apt:
+        name: apache2
+        
