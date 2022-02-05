@@ -1,0 +1,2 @@
+192.168.130.4 apache_sunucusu=apache2 php_kutuphane=libapache2-mod-php
+192.168.130.5 apache_sunucusu=apache2 php_kutuphane=libapache2-mod-php

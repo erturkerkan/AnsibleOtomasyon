@@ -1,0 +1,15 @@
+---
+  - hosts: all
+    become: true
+    tasks:
+    
+    - name: Bu gorev,Ubuntu apache2 ve  yuklemesini gerceklestirir ve paket indexisini günceller.
+      apt:
+        name: 
+          - apache2
+          - libapache2-mod-php
+        state: latest
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu" 
+    
+   

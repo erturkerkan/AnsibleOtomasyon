@@ -1,2 +1,9 @@
+[web_sunuculari]
 192.168.130.4
+192.168.130.5
+
+[veritabani_sunucusu]
+192.168.130.4
+
+[ftp_sunucusu]
 192.168.130.5
