@@ -1,0 +1,92 @@
+---
+  - hosts: all
+    tags: always
+    become: true
+    tasks:
+
+
+# Bu görev sunucu güncellemeleri için hazırlanmıştır.
+    - name: Bu gorev,Ubuntu apache2 ve  yuklemesini gerceklestirir ve paket indexisini günceller.
+      ansible.builtin.package:
+          upgrade: dist
+          update_cache: yes
+      when: ansible_distribution == "Ubuntu" 
+
+# Bu görev Ubuntu için apache ve php kutuphanesi yüklemesi yapar
+
+  - hosts: web_sunuculari
+    become: true
+    tasks:
+   
+      - name: Isletim sistemlerini tespit et.
+        debug: var=ansible_os_family
+        tags: web_sunuculari
+
+      - name: Dosyalardan degiskenleri oku
+        include_vars: "{{ lookup('first_found', params) }}"
+        vars:
+          params:
+            files:
+              - "vars/apache_{{ ansible_os_family }}.yaml"
+              - "vars/apache_varsayilan.yaml"
+        tags: web_sunuculari       
+      - name: Bu gorev,Ubuntu apache2 ve php kutuphanesi yuklemesini gerceklestirir ve paket indexisini günceller.
+        ansible.builtin.package:
+          name: 
+            - "{{ apache_sunucusu }}"
+            - "{{ php_kutuphane }}"
+          state: latest
+          update_cache: yes
+        tags: web_sunuculari
+
+# Bu görev, Ubuntuya mariadb yüklemesini geçekleştirir.
+  - hosts: veritabani_sunucusu
+    become: true
+    tasks:
+      
+      - name: Isletim sistemlerini tespit et.
+        debug: var=ansible_os_family
+        tags: veritabani_sunucusu
+
+      - name: Dosyalardan degiskenleri oku
+        include_vars: "{{ lookup('first_found', params) }}"
+        vars:
+          params:
+            files:
+              - "vars/apache_{{ ansible_os_family }}.yaml"
+              - "vars/apache_varsayilan.yaml"
+        tags: veritabani_sunucusu
+
+      - name: Bu gorev,Ubuntu mariadb  yuklemesini gerceklestirir.
+        ansible.builtin.package:  
+          name: 
+            - "{{ db_sunucusu }}"
+          state: latest
+        tags: veritabani_sunucusu
+   
+# Bu görev, Ubuntuya ftpserver yüklemesini geçekleştirir.  
+  - hosts: ftp_sunucusu
+    become: true
+    tasks:
+      
+      - name: Isletim sistemlerini tespit et.
+        debug: var=ansible_os_family
+        tags: ftp_sunucusu
+
+      - name: Dosyalardan degiskenleri oku
+        include_vars: "{{ lookup('first_found', params) }}"
+        vars:
+          params:
+            files:
+              - "vars/apache_{{ ansible_os_family }}.yaml"
+              - "vars/apache_varsayilan.yaml"
+        tags: ftp_sunucusu
+             
+      - name: Bu gorev,Ubuntu ftpserver  yuklemesini gerceklestirir.
+        ansible.builtin.package:
+          name: 
+            - "{{ ftp_sunucusu }}"
+          state: latest
+        tags: ftp_sunucusu
+        
+ 
