@@ -1,0 +1,23 @@
+---
+  - hosts: Ansible_Controller
+    connection: local
+    vars:
+      - repo: 'https://github.com/erturkerkan/Yenisite.git'
+      - hedefklasor: /home/erkan/Prod_Proje
+    become: yes
+    
+    tasks:
+
+      - name: Bu görev, git repodan projenin kaynak kodunu download eder.
+        git:
+          repo: "{{ repo }}"
+          dest: "{{ hedefklasor }}"
+      
+      - name: Bu görev Git Repodan indirilen proje belgelerini listeler.
+        find:
+          paths: "{{ hedefklasor }}"
+        register: liste
+
+      - debug:
+          var: liste
+
