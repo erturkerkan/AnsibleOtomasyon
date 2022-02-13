@@ -1,0 +1,14 @@
+---
+  - hosts: all,!Ansible_Controller
+    tags: always
+  # tags: never
+    become: true
+    tasks:
+
+
+# Bu görev sunucu güncellemeleri için hazırlanmıştır.
+    - name: Bu gorev,Ubuntu apache2 ve  yuklemesini gerceklestirir ve paket indexisini günceller.
+      ansible.builtin.package:
+          upgrade: dist
+          update_cache: yes
+      when: ansible_distribution == "Ubuntu" 
